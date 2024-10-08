@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        button {
+            background-color: rgb(157, 180, 249);
+            color: whitesmoke;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        #user-list {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #user-list div {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="Fetch">Fetch Photos</button>
+    <div id="user-list"></div>
+
+    <script>
+        const button = document.getElementById("Fetch");
+        const userList = document.getElementById("user-list");
+
+        button.addEventListener("click", () => {
+            fetch("https://jsonplaceholder.typicode.com/photos")
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    userList.innerHTML = "";
+                    data.forEach((photo) => {
+                        const photoDiv = document.createElement("div");
+
+                        const img = document.createElement("img");
+                        img.src = photo.thumbnailUrl;
+                        img.alt = photo.title;
+                        img.style.width = "100px"; // 
+
+                        const caption = document.createElement("p");
+                        caption.textContent = photo.title;
+
+                        photoDiv.appendChild(img);
+                        photoDiv.appendChild(caption);
+                        userList.appendChild(photoDiv);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        })
+    </script>
+
+</body>
+
+</html>
